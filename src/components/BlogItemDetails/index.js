@@ -1,9 +1,10 @@
 import {Component} from 'react'
 
+import Loader from 'react-loader-spinner'
 import './index.css'
 
 class BlogItemDetails extends Component {
-  state = {blogData: {}}
+  state = {blogData: {}, isLoading: true}
 
   componentDidMount() {
     this.getBlogItemData()
@@ -24,7 +25,7 @@ class BlogItemDetails extends Component {
       author: data.author,
       topic: data.topic,
     }
-    this.setState({blogData: updatedData})
+    this.setState({blogData: updatedData, isLoading: false})
   }
 
   renderBlogItemDetails = () => {
@@ -46,7 +47,17 @@ class BlogItemDetails extends Component {
   }
 
   render() {
-    return <div className="blog-container">{this.renderBlogItemDetails()}</div>
+    const {isLoading} = this.state
+
+    return (
+      <div className="blog-container">
+        {isLoading ? (
+          <Loader type="TailSpin" color="#00BFFF" height={50} width={50} />
+        ) : (
+          this.renderBlogItemDetails()
+        )}
+      </div>
+    )
   }
 }
 
